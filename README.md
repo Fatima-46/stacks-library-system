@@ -7,7 +7,7 @@ Full-stack web rebuild of my console C++ Library Management System — Flask, SQ
 ![SQLite](https://img.shields.io/badge/SQLite-DB-003B57?logo=sqlite&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-**[🔴 Live Demo](#)** &nbsp;·&nbsp; *(add your Render URL here after deploying — see below)*https://fatimasaleem.pythonanywhere.com
+**[🔴 Live Demo](#)** *https://fatimasaleem.pythonanywhere.com
 
 ---
 
