@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stacks &mdash; Smart Library Management System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="catalog-drawer-rail" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <span class="brand-mark">§</span>
+      <div class="brand-text">
+        <h1>Stacks</h1>
+        <p>Smart Library Management System</p>
+      </div>
+    </div>
+    <nav class="tabs" id="tabs">
+      <button class="tab active" data-tab="dashboard">Dashboard</button>
+      <button class="tab" data-tab="books">Books</button>
+      <button class="tab" data-tab="members">Members</button>
+      <button class="tab" data-tab="circulation">Issue / Return</button>
+      <button class="tab" data-tab="history">History</button>
+    </nav>
+  </div>
+</header>
+
+<main class="content">
+
+  <!-- DASHBOARD -->
+  <section class="panel active" id="panel-dashboard">
+    <div class="stat-row">
+      <div class="stat-card">
+        <span class="stat-label">Titles on shelf</span>
+        <span class="stat-value" id="stat-books">&mdash;</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Copies available</span>
+        <span class="stat-value" id="stat-available">&mdash;</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Registered members</span>
+        <span class="stat-value" id="stat-members">&mdash;</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-label">Active loans</span>
+        <span class="stat-value" id="stat-loans">&mdash;</span>
+      </div>
+      <div class="stat-card accent">
+        <span class="stat-label">Unpaid fines</span>
+        <span class="stat-value" id="stat-fines">&mdash;</span>
+      </div>
+    </div>
+    <p class="hint">This dashboard reflects live data from the SQLite database. Use the tabs above to add books, register members, and manage circulation.</p>
+  </section>
+
+  <!-- BOOKS -->
+  <section class="panel" id="panel-books">
+    <div class="panel-head">
+      <h2>Catalog</h2>
+      <input type="search" id="book-search" placeholder="Search title or author&hellip;">
+    </div>
+
+    <form id="book-form" class="card-form">
+      <div class="field"><label>Book ID</label><input required name="id" placeholder="B001"></div>
+      <div class="field grow"><label>Title</label><input required name="title" placeholder="Clean Code"></div>
+      <div class="field grow"><label>Author</label><input required name="author" placeholder="Robert C. Martin"></div>
+      <div class="field"><label>Genre</label><input name="genre" placeholder="General"></div>
+      <div class="field small"><label>Copies</label><input required type="number" min="1" name="copies" value="1"></div>
+      <button type="submit" class="btn-stamp">+ Add to catalog</button>
+    </form>
+
+    <table class="index-table">
+      <thead><tr><th>ID</th><th>Title</th><th>Author</th><th>Genre</th><th>Available</th><th></th></tr></thead>
+      <tbody id="books-table-body"></tbody>
+    </table>
+  </section>
+
+  <!-- MEMBERS -->
+  <section class="panel" id="panel-members">
+    <div class="panel-head"><h2>Members</h2></div>
+
+    <form id="member-form" class="card-form">
+      <div class="field"><label>Member ID</label><input required name="id" placeholder="M001"></div>
+      <div class="field grow"><label>Full name</label><input required name="name" placeholder="Ali Raza"></div>
+      <button type="submit" class="btn-stamp">+ Register member</button>
+    </form>
+
+    <table class="index-table">
+      <thead><tr><th>ID</th><th>Name</th><th>Fine</th><th>Pay fine</th></tr></thead>
+      <tbody id="members-table-body"></tbody>
+    </table>
+  </section>
+
+  <!-- CIRCULATION -->
+  <section class="panel" id="panel-circulation">
+    <div class="panel-head"><h2>Issue &amp; Return</h2></div>
+
+    <div class="split-forms">
+      <form id="issue-form" class="stamp-form">
+        <h3>Issue a book</h3>
+        <div class="field"><label>Member ID</label><input required name="member_id" placeholder="M001"></div>
+        <div class="field"><label>Book ID</label><input required name="book_id" placeholder="B001"></div>
+        <button type="submit" class="btn-stamp">Issue</button>
+      </form>
+
+      <form id="return-form" class="stamp-form">
+        <h3>Return a book</h3>
+        <div class="field"><label>Member ID</label><input required name="member_id" placeholder="M001"></div>
+        <div class="field"><label>Book ID</label><input required name="book_id" placeholder="B001"></div>
+        <button type="submit" class="btn-stamp secondary">Return</button>
+      </form>
+    </div>
+
+    <div id="circulation-message" class="message" hidden></div>
+  </section>
+
+  <!-- HISTORY -->
+  <section class="panel" id="panel-history">
+    <div class="panel-head"><h2>Circulation history</h2></div>
+    <table class="index-table">
+      <thead><tr><th>Member</th><th>Book</th><th>Issued</th><th>Due</th><th>Returned</th><th>Status</th></tr></thead>
+      <tbody id="history-table-body"></tbody>
+    </table>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Built with Flask &amp; SQLite &middot; <a href="https://github.com/Fatima-46" target="_blank" rel="noopener">github.com/Fatima-46</a></p>
+</footer>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
